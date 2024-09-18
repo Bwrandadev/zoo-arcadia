@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <!-- Lien vers Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+ <!-- Header -->
+ <?php include('header.php'); ?>
+ <body class="bg-dark text-light">
+ <p><a href="Habitats.php">< Habitats</a></p>
+<div class="container text-center">
+    <div class="row justify-content-center">
+        <?php foreach ($animaux as $animal) : ?>
+            <div class="col-md-4">
+                <div class="animal-card">
+                    <!-- Image de l'animal -->
+                    <img src="<?php echo $animal['image']; ?>" alt="<?php echo $animal['nom']; ?>">
+
+                    <!-- Nom de l'animal -->
+                
+
+                    <!-- Bouton pour afficher la description -->
+                    <button class="btn btn-success" onclick="toggleDescription('<?php echo $animal['id']; ?>')">
+                        En savoir plus
+                    </button>
+
+                    <!-- Description en plusieurs sections -->
+                    <div id="<?php echo $animal['id']; ?>" class="animal-description">
+                        <ul>
+                            <li><strong>Espèce :</strong> <br><?php echo $animal['description']['espèce']; ?> </br> </li>
+                            <li><strong>Habitat :</strong> <br> <?php echo $animal['description']['habitat']; ?> </br> 
+                        </li>
+                            <li><strong>État de l'animal :</strong> <br><?php echo $animal['description']['etat']; ?></br> </li>
+                            <li><strong>Avis du vétérinaire :</strong> <br> <?php echo $animal['description']['avis']; ?></br> </li>
+                            <li><strong>Nourriture proposée :</strong> <br> <?php echo $animal['description']['nourriture']; ?> </br> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+
+ <!-- footer -->
+ <?php include('footer.php'); ?>
+
+
+<!-- Lien vers Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script pour afficher/masquer la description -->
+<script>
+        function toggleDescription(id) {
+            const description = document.getElementById(id);
+            description.style.display = description.style.display === 'block' ? 'none' : 'block';
+        }
+</script>
+</body>
+</html>

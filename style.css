@@ -1,0 +1,889 @@
+/* ------------------- header & footer ----------------- */
+/* Header */
+header {
+  display: flex;
+  background-color: #8b580c;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+header nav ul li {
+  margin: 0 15px;
+}
+
+header nav ul li a {
+  color: #131313;
+  text-decoration: none;
+  font-weight: regular;
+}
+
+header .logo img {
+  height: 60px;
+  border-radius: 40px;
+}
+
+header .connexion a {
+  background-color: #131313;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 40px;
+}
+
+/* Footer */
+
+.footer-container {
+  display: flex;
+  justify-content: space-between; /* Aligne les sections avec de l'espace entre elles */
+  background-color: #8b580c;
+  padding: 20px 40px;
+  color: #000;
+  flex-wrap: wrap;
+}
+
+.social-media-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px; /* Espace entre les icônes */
+}
+
+.social-icon {
+  width: 24px;
+  height: 24px; /* Taille des icônes sociales */
+}
+
+.footer-section {
+  flex: 1;
+}
+
+.footer-section p {
+  margin: 0;
+  line-height: 1.5; /* Espacement entre les lignes */
+  text-align: center;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  vertical-align: middle; /* Aligne les icônes avec le texte */
+}
+.icon-time {
+  margin-left: 300px;
+}
+
+.footer-bottom {
+  display: block; /* Définit la section en tant qu'élément de bloc */
+  width: 100%;
+  background-color: #8b580c;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 1px solid #000; /* Ligne de séparation */
+  margin-top: 20px;
+  font-size: 14px;
+  clear: both; /* Assure que rien ne flotte autour */
+}
+/* -------------  index.php ------------------------- */
+
+/* Style généraux pour la page */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Kohinoor Bangla", sans-serif;
+  background-color: #171e1b;
+  color: white;
+}
+
+/* Hero section */
+#hero {
+  background: url("assetArcadia/backgroundHero.jpg") no-repeat center center;
+  background-size: cover;
+  text-align: center;
+  padding: 100px 20px;
+  color: #fff;
+}
+
+#hero h1 {
+  font-size: 50px;
+  margin-bottom: 10px;
+  font-family: "New Peninim MT", Gill Sans, Gill Sans MT, Calibri, sans-serif;
+  font-weight: 200;
+  color: #ffbd59;
+  background-color: rgba(0, 0, 0, 0.4); /* Fond noir semi-transparent */
+  border: 40px;
+  text-align: center;
+}
+
+#hero p {
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+  background-color: rgba(0, 0, 0, 0.4); /* Fond noir semi-transparent */
+}
+
+/* Section Habitats */
+#habitats {
+  background-color: #171e1b;
+  text-align: center;
+  font-family: "Klee One", sans-serif;
+}
+
+#habitats h2 {
+  color: #ffbd59;
+  font-family: "Klee One", sans-serif;
+}
+
+#habitats p {
+  color: #fff;
+  margin-bottom: 40px;
+}
+#habitats p a {
+  color: #a46b14;
+  text-decoration: none;
+}
+
+.habitats-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.habitat {
+  width: 30%;
+  margin: 15px;
+}
+
+.habitat img {
+  height: 300px;
+  width: 200px;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.habitat h3 {
+  color: white;
+  margin-top: 10px;
+}
+
+/* Section Services */
+#services {
+  background-color: #171e1b;
+  text-align: center;
+}
+
+#services h2 {
+  color: #ffbd59;
+  margin-bottom: 20px;
+  font-family: "Klee One", sans-serif;
+}
+
+#services p {
+  color: #ccc;
+  margin-bottom: 40px;
+}
+#services p a {
+  color: #a46b14;
+  text-decoration: none;
+}
+.services-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.service {
+  width: 30%;
+  margin: 15px;
+}
+
+.service img {
+  height: 300px;
+  width: 200px;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+.service h3 {
+  color: white;
+  margin-top: 10px;
+  font-family: "Klee One", sans-serif;
+}
+
+/* Section Avis */
+#avis {
+  background-color: #dcd1d1;
+  text-align: center;
+}
+
+#avis h2 {
+  color: #a46b14;
+  margin-bottom: 30px;
+  font-family: "Klee One", sans-serif;
+}
+
+.avis-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* aligne les éléments en haut */
+  gap: 20px; /* espace entre les éléments */
+}
+
+.avis {
+  width: 20%;
+  background-color: #171e1b;
+  padding: 2px;
+  border-radius: 40px;
+  margin: 20px;
+  color: #fff;
+}
+
+.laisser-avis-btn {
+  width: 200px;
+  margin-top: 40px;
+  background-color: #997135;
+  color: #fff;
+  border-radius: 40px;
+}
+.laisser-avis-btn a {
+  color: white;
+  text-decoration: none;
+  border-radius: 40px;
+}
+/* CSS pour masquer la modale par défaut et styliser l'apparence */
+.modal {
+  display: none; /* Caché par défaut */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenu de la modale */
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  position: relative;
+}
+
+/* Style du bouton de fermeture (X) */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  color: #997135;
+  cursor: pointer;
+}
+
+/* Style du formulaire à l'intérieur de la modale */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+button[type="submit"] {
+  background-color: #997135;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  align-content: stretch;
+}
+
+button[type="submit"]:hover {
+  background-color: #7a5a29;
+}
+/* ---------------- habitats.php -------------------- */
+/* Section principale */
+.habitat-title {
+  text-align: center;
+  font-family: "Klee One", sans-serif;
+  color: #a46b14;
+}
+
+.habitats-section {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background-color: #171e1b;
+}
+
+.habitat {
+  text-align: center;
+}
+
+.habitat-image {
+  flex: 1;
+  border-radius: 20px;
+}
+
+.habitat-description {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+  font-family: "Kohinoor Bangka", sans-serif;
+}
+
+.intro {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.animal-icons img {
+  height: 200px;
+  border-radius: 60px;
+  margin-bottom: 25px;
+}
+/* ---------------- services.php -------------------- */
+/* Section des services */
+
+#services-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  background-color: #171e1b;
+}
+
+.services-descript {
+  display: flex;
+  text-align: center;
+  width: 100%;
+}
+
+.services-descript-img {
+  width: 600px; /* Taille fixe */
+  height: 400px; /* Taille fixe */
+  overflow: hidden; /* Masque les débordements si l'image est plus grande que le conteneur */
+  border-radius: 40px;
+  object-fit: cover;
+  margin-top: 30px;
+  padding: 30px;
+}
+
+.bloc-services {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.services-title {
+  font-size: 24px;
+  color: #a46b14;
+  margin-bottom: 15px;
+  font-family: "Klee One", serif;
+}
+
+.services-descript-text {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-family: "Kohinoor Bangla", sans-serif;
+}
+
+.services-descript-text strong {
+  font-size: 16px;
+  color: #e4a545;
+}
+/* ---------------- contact.php -------------------- */
+/* Section contact */
+.contact-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+  background-color: #171e1b;
+}
+
+/* Style du formulaire */
+.form-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+
+/* Titre du formulaire */
+.form-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-family: "Inter", sans-serif;
+}
+
+/* Style des labels et des champs */
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #999;
+}
+
+/* Style du bouton */
+button {
+  width: 200px;
+  margin-left: 50px;
+  padding: 15px;
+  background-color: #997135; /* Couleur brune pour le bouton */
+  border: none;
+  border-radius: 40px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #66370b; /* Changement de couleur au survol */
+}
+
+/* ---------------- connexion.php -------------------- */
+/* Section connexion */
+.connexion-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+  background-color: #171e1b;
+  font-family: "Kohinoor Bangla";
+}
+/* Style du formulaire */
+.login-container {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+}
+/* Titre du formulaire */
+.login-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+  font-family: "Inter", sans-serif;
+}
+
+/* ---------------- templateAnimaux.php -------------------- */
+body p a {
+  text-decoration: none;
+  color: #ffff;
+  font-style: italic;
+}
+.animal-card {
+  color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  height: 100%;
+  align-content: stretch;
+}
+
+.animal-card img {
+  border-radius: 40px;
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.animal-card h3 {
+  margin: 10px;
+  margin-bottom: 10px;
+}
+
+.animal-description {
+  display: none;
+  padding: 20px;
+  background-color: #ffff;
+  color: #171e1b;
+  border-radius: 40px;
+  text-align: left;
+  margin-top: 10px;
+  min-height: 150px;
+}
+
+.animal-description.visible {
+  display: block;
+}
+/* Style pour les sections de la description */
+.animal-description ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.animal-description li {
+  margin-bottom: 10px;
+}
+
+.animal-description strong {
+  font-weight: bold;
+  color: #131313;
+}
+button.btn.btn-success {
+  margin: O auto;
+}
+
+/* ---------------- admin.php -------------------- */
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Styles pour la barre latérale */
+.sidebar {
+  width: 250px;
+  background-color: #00592e;
+  color: white;
+  padding: 20px;
+  border-radius: 40px;
+  margin: 10px;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+  background-color: #2f6b2f;
+}
+
+.logout-btn {
+  background-color: #997135;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin: 20px;
+  width: 60%;
+}
+
+/* Contenu principal */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #ffff;
+  color: #131313;
+  border-radius: 40px;
+  margin: 20px;
+}
+
+.main-content h2 {
+  color: #214f21;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+form button {
+  background-color: #214f21;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #2f6b2f;
+}
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #214f21;
+  color: white;
+}
+
+table td {
+  text-align: left;
+}
+
+/* Cacher les sections par défaut */
+.section {
+  display: none;
+}
+
+/* Section active visible */
+.section.active {
+  display: block;
+}
+
+.employee-container {
+  display: flex;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+form label {
+  margin-bottom: 5px;
+}
+
+form input,
+form textarea {
+  margin-bottom: 15px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+/* ---------------- veterinaire.php -------------------- */
+.veterinaire-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Barre latérale */
+.sidebar {
+  width: 250px;
+  background-color: #214f21;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+  background-color: #2f6b2f;
+}
+
+.logout-btn {
+  background-color: #997135;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Contenu principal */
+.main-content {
+  flex: 1;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 20px;
+}
+
+.main-content h2 {
+  color: #214f21;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
+form label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+form button {
+  background-color: #214f21;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+form button:hover {
+  background-color: #2f6b2f;
+}
+
+/* Table styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+table th {
+  background-color: #214f21;
+  color: white;
+}
+
+table td {
+  text-align: left;
+}
+
+/* Cacher les sections par défaut */
+.section {
+  display: none;
+}
+
+/* Afficher la section active */
+.section.active {
+  display: block;
+}
+
+.logout-btn {
+  text-decoration: none;
+}
+
+/* Confirmation.php */
+.confirmation-message {
+  font-size: 20px;
+  color: green;
+}
