@@ -1,0 +1,26 @@
+# Ignorer les fichiers et dossiers générés par l'IDE
+.idea/
+.vscode/
+*.log
+
+# Ignorer les fichiers de configuration spécifiques à l'environnement
+.env
+
+# Ignorer les fichiers de compilation
+*.class
+*.o
+*.out
+
+# Ignorer les dossiers de dépendances
+node_modules/
+vendor/
+
+# Ignorer les fichiers volumineux
+*.zip
+*.tar.gz
+*.mp4
+*.avi
+
+# Ignorer les fichiers de sauvegarde temporaires
+*.bak
+*.tmp
