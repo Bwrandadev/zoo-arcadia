@@ -1,5 +1,3 @@
-// JavaScript pour dynamiser la navigation
-
 // Sélectionner tous les liens de navigation dans la barre latérale
 const navLinks = document.querySelectorAll(".nav-link");
 
@@ -24,7 +22,6 @@ function showSection(sectionId) {
 // Ajouter des événements de clic à chaque lien de navigation
 navLinks.forEach((link) => {
   link.addEventListener("click", function (event) {
-    // Empêcher le comportement par défaut du lien (qui ferait défiler la page)
     event.preventDefault();
 
     // Masquer toutes les sections

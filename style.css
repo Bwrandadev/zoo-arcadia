@@ -796,7 +796,6 @@ button {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 20px;
   width: 100%;
 }
 
@@ -805,10 +804,14 @@ button {
   flex: 1;
   padding: 40px;
   background-color: #fff;
+  color: #171e1b;
   border-radius: 10px;
   margin: 20px;
 }
-
+.section.active td {
+  background-color: #171e1b;
+  color: #fff;
+}
 .main-content h2 {
   color: #214f21;
   font-size: 24px;
@@ -882,8 +885,10 @@ table td {
   text-decoration: none;
 }
 
-/* Confirmation.php */
+/*---------- Confirmation.php ------------*/
+
 .confirmation-message {
   font-size: 20px;
-  color: green;
+  color: #ffff;
+  text-align: center;
 }

@@ -1,3 +1,20 @@
+<?php
+session_start();
+if (!isset($_SESSION['users_id']) || $_SESSION['role_id'] != 5) {
+    header("Location: connexion.php");
+    exit();
+}
+include('db.php');
+$pdo = getDBConnection();
+
+// Récupérer les repas depuis la base de données
+$stmt = $pdo->prepare("SELECT meal.*, animals.name AS animal_name, users.email AS user_email
+                       FROM meal
+                       JOIN animals ON meal.animal_id = animals.id 
+                       JOIN users ON meal.user_id = users.id");
+$stmt->execute();
+$meals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -26,19 +43,34 @@
         <main class="main-content">
             <section id="page-bienvenue" class="section.active">
 <h2>Bienvenue sur votre espace</h2>
+                
             </section>
             <!-- Section Gestion des Repas -->
             <section id="gestion-repas" class="section">
                 <h2>Gestion des Repas</h2>
-                <form method="POST" action="veterinaire.php?action=add_meal">
-                    <label for="nom-animal">Nom de l'animal :</label>
-                    <input type="text" id="nom-animal" name="nom-animal" required>
-                    
-                    <label for="type-repas">Type de repas :</label>
-                    <input type="text" id="type-repas" name="type-repas" required>
-                    
-                    <button type="submit">Ajouter Repas</button>
-                </form>
+                <table>
+    <thead>
+        <tr>
+            <th>Animal</th>
+            <th>Nourriture</th>
+            <th>Quantité</th>
+            <th>Heure du repas</th>
+            <th>Ajouté par (employé)</th>
+        </tr>
+    </thead>
+    <tbody>
+  
+        <?php foreach ($meals as $meal): ?>
+            <tr>
+                <td><?= $meal['animal_name']; ?></td>
+                <td><?= $meal['food_type']; ?></td>
+                <td><?= $meal['quantite']; ?></td>
+                <td><?= $meal['feeding_time']; ?></td>
+                <td><?= $meal['user_email']; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
             </section>
 
             <!-- Section Comptes Rendus des Animaux -->
@@ -53,29 +85,6 @@
                     
                     <button type="submit">Ajouter Compte Rendu</button>
                 </form>
-
-                <!-- Liste des comptes rendus -->
-                <h3>Liste des Comptes Rendus</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Animal</th>
-                            <th>Date</th>
-                            <th>Vétérinaire</th>
-                            <th>Compte Rendu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Exemple d'affichage des comptes rendus -->
-                        <tr>
-                            <td>Simba</td>
-                            <td>2024-09-01</td>
-                            <td>Dr. Dupont</td>
-                            <td>Examen de santé complet</td>
-                        </tr>
-                        <!-- D'autres comptes rendus seront affichés ici dynamiquement -->
-                    </tbody>
-                </table>
             </section>
         </main>
     </div>

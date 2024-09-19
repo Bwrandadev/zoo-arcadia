@@ -1,6 +1,4 @@
-// Attendre que le DOM soit complètement chargé
 document.addEventListener("DOMContentLoaded", function () {
-  // Sélectionner les éléments nécessaires
   const modal = document.getElementById("modal");
   const openModalBtn = document.getElementById("openModalBtn");
   const closeModalBtn = document.getElementsByClassName("close")[0];

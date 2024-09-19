@@ -1,5 +1,4 @@
 <?php
-// Inclure le fichier de connexion à la base de données
 include('db.php');
 $pdo = getDBConnection();
 

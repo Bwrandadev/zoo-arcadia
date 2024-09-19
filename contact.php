@@ -1,10 +1,8 @@
 <?php
-// Inclure le fichier de connexion à la base de données
 include('db.php');
 $pdo = getDBConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Récupérer les données du formulaire
     $email = $_POST['email'];
     $titre = $_POST['titre'];
     $message = $_POST['message'];

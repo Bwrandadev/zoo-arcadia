@@ -1,3 +1,31 @@
+<?php
+include('db.php');
+$pdo = getDBConnection();
+
+// Vérifier si le formulaire d'avis est soumis via POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupérer les données du formulaire
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+
+    // Valider les données du formulaire
+    if (!empty($email) && !empty($message)) {
+        try {
+            // Insérer les données dans la table 'avis' avec le statut 'pending'
+            $stmt = $pdo->prepare("INSERT INTO avis (email, message, status) VALUES (?, ?, 'pending')");
+            $stmt->execute([$email, $message]);
+
+            // Rediriger vers une page de confirmation
+            header("Location: confirmation.php");
+            exit();
+        } catch (Exception $e) {
+            echo "Erreur lors de l'envoi de l'avis : " . $e->getMessage();
+        }
+    } else {
+        echo "Tous les champs sont obligatoires.";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -51,15 +79,15 @@
         </p>
         <div class="services-container">
             <div class="service">
-                <img src="assetArcadia/restaurant.jpg" alt="Restauration">
+                <img src="uploads/restaurant.jpg" alt="Restauration">
                 <h3>Restauration</h3>
             </div>
             <div class="service">
-                <img src="assetArcadia/guideTour.jpg" alt="Visite guidée">
+                <img src="uploads/guideTour.jpg" alt="Visite guidée">
                 <h3>Visite guidée</h3>
             </div>
             <div class="service">
-                <img src="assetArcadia/petitTrain3.png" alt="Petit train">
+                <img src="uploads/petitTrain3.png" alt="Petit train">
                 <h3>Petit train</h3>
             </div>
         </div>

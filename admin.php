@@ -1,14 +1,85 @@
 <?php
-session_start(); // Démarre la session
-// Inclure le fichier de connexion à la base de données
-include('db.php');
-
-if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 1) {  // 1 pour admin
+session_start();
+if (!isset($_SESSION['users_id']) || $_SESSION['role_id'] != 1) {
     header("Location: connexion.php");
     exit();
 }
 
-echo "Bienvenue sur la page admin !";
+include('db.php');
+$pdo = getDBConnection();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] == 'add_user') {
+    $email = $_POST['email'];
+    $role = $_POST['role'];
+
+    // Définir un mot de passe aléatoire
+    $password = bin2hex(random_bytes(4)); // Crée un mot de passe aléatoire de 8 caractères
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+
+    
+    $role_id = ($role == 'employe') ? 2 : 5; 
+
+    try {
+        // Insertion du nouvel utilisateur dans la base de données
+        $stmt = $pdo->prepare("INSERT INTO users (email, password, role_id) VALUES (?, ?, ?)");
+        $stmt->execute([$email, $hashed_password, $role_id]);
+
+        // Envoyer l'email avec uniquement le username (email)
+        $to = $email;
+        $subject = "Création de votre compte utilisateur";
+        $message = "Votre compte a été créé avec succès. Votre username est : $email. Veuillez contacter l'administrateur pour obtenir votre mot de passe.";
+        $headers = "From: admin@zooarcadia.com";  // Change par ton adresse e-mail
+
+        if (mail($to, $subject, $message, $headers)) {
+            echo "Utilisateur créé avec succès et email envoyé.";
+        } else {
+            echo "Utilisateur créé mais l'envoi de l'email a échoué.";
+        }
+    } catch (Exception $e) {
+        echo "Erreur lors de la création de l'utilisateur : " . $e->getMessage();
+    }
+}
+// Récupérer tous les animaux depuis la table
+$stmt = $pdo->prepare("SELECT * FROM animals");
+$stmt->execute();
+$animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Gestion de la suppression d'un animal
+if (isset($_GET['action']) && $_GET['action'] === 'delete_animal' && isset($_GET['id'])) {
+    $animal_id = $_GET['id'];
+    $stmt = $pdo->prepare("DELETE FROM animals WHERE id = ?");
+    if ($stmt->execute([$animal_id])) {
+        echo "Animal supprimé avec succès.";
+    } else {
+        echo "Erreur lors de la suppression de l'animal.";
+    }
+
+    header("Location: admin.php#gestion-animaux");
+    exit();
+}
+
+// Gestion de la modification d'un animal
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_GET['action'] === 'edit_animal') {
+    $animal_id = $_POST['id'];
+    $name = $_POST['name'];
+    $espece = $_POST['espece'];
+    $habitat_id = $_POST['habitat_id'];
+    $etat = $_POST['etat'];
+    $vet_comm = $_POST['vet_comm'];
+    $food = $_POST['food'];
+    $image_url = $_POST['image_url'];
+
+    // Mise à jour de l'animal dans la base de données
+    $stmt = $pdo->prepare("UPDATE animals SET name = ?, espece = ?, habitat_id = ?, etat = ?, vet_comm = ?, food = ?, image_url = ? WHERE id = ?");
+    if ($stmt->execute([$name, $espece, $habitat_id, $etat, $vet_comm, $food, $image_url, $animal_id])) {
+        echo "Animal modifié avec succès.";
+    } else {
+        echo "Erreur lors de la modification de l'animal.";
+    }
+
+    header("Location: admin.php#gestion-animaux");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -66,53 +137,72 @@ echo "Bienvenue sur la page admin !";
 
                     <button type="submit">Créer utilisateur</button>
                 </form>
+                <?php
+$stmt = $pdo->prepare("SELECT * FROM users");
+$stmt->execute();
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
 
-                    <tbody>
-
-                            <td>
-                                <a href="admin.php?action=edit_user&id=1">Modifier</a> |
-                                <a href="admin.php?action=delete_user&id=1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $user) : ?>
+        <tr>
+            <td><?= htmlspecialchars($user['id']) ?></td>
+            <td><?= htmlspecialchars($user['email']) ?></td>
+            <td><?= ($user['role_id'] == 2) ? 'Employé' : 'Vétérinaire'; ?></td>
+            <td>
+                <a href="admin.php?action=edit_user&id=<?= $user['id'] ?>">Modifier</a> |
+                <a href="admin.php?action=delete_user&id=<?= $user['id'] ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">Supprimer</a>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+    
             </section>
 
             <!-- Gestion des services -->
             <section id="gestion-services" class="section">
-                <h2>Gestion des Services</h2>
-                <form method="POST" action="admin.php?action=add_service">
-                    <label for="nom-service">Nom du service :</label>
-                    <input type="text" id="nom-service" name="nom-service" required>
+    <h2>Gestion des Services</h2>
+    <form method="POST" action="admin_services.php?action=add_service" enctype="multipart/form-data">
+        <label for="name">Nom du service :</label>
+        <input type="text" id="name" name="name" required>
 
-                    <label for="description-service">Description :</label>
-                    <textarea id="description-service" name="description-service" required></textarea>
+        <label for="description">Description :</label>
+        <textarea id="description" name="description" required></textarea>
 
-                    <button type="submit">Ajouter Service</button>
-                </form>
+        <label for="image">Image du service :</label>
+        <input type="file" id="image" name="image" required>
 
-                <!-- Liste des services avec actions -->
-               <!-- <h3>Liste des Services</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead> -->
-                    <tbody>
-                        <!-- Exemple d'affichage de services -->
-                       
-                            <td>
-                                <a href="admin.php?action=edit_service&id=1">Modifier</a> |
-                                <a href="admin.php?action=delete_service&id=1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce service ?');">Supprimer</a>
-                            </td>
-                        
+        <button type="submit">Ajouter Service</button>
+        <tbody>
+                    <?php
+        $stmt = $pdo->prepare("SELECT * FROM services");
+        $stmt->execute();
+        $services = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($services as $service) {
+            echo "<tr>
+                    <td>{$service['name']}</td>
+                    <td>{$service['description']}</td>
+                    <td><img src='{$service['image_url']}' alt='{$service['name']}' width='100'></td>
+                    <td>
+                        <a href='admin_services.php?action=edit_service&id={$service['id']}'>Modifier</a> |
+                        <a href='admin_services.php?action=delete_service&id={$service['id']}' onclick='return confirm(\"Êtes-vous sûr de vouloir supprimer ce service ?\");'>Supprimer</a>
+                    </td>
+                  </tr>";
+        }
+        ?>
                     </tbody>
-                </table>
-            </section>
-
+    </form>
+</section>
             <!-- Gestion des habitats -->
             <section id="gestion-habitats" class="section">
                 <h2>Gestion des Habitats</h2>
@@ -124,59 +214,76 @@ echo "Bienvenue sur la page admin !";
                     <textarea id="description-habitat" name="description-habitat" required></textarea>
 
                     <button type="submit">Ajouter Habitat</button>
+                    
                 </form>
 
-                <!-- Liste des habitats avec actions 
-                <h3>Liste des Habitats</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead> -->
-                    <tbody>
-                        
-                            <td>
-                                <a href="admin.php?action=edit_habitat&id=1">Modifier</a> |
-                                <a href="admin.php?action=delete_habitat&id=1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet habitat ?');">Supprimer</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> 
+
             </section>
 
             <!-- Gestion des animaux -->
             <section id="gestion-animaux" class="section">
                 <h2>Gestion des Animaux</h2>
-                <form method="POST" action="admin.php?action=add_animal">
-                    <label for="prenom-animal">Prénom de l'animal :</label>
-                    <input type="text" id="prenom-animal" name="prenom-animal" required>
+                <form method="POST" action="admin.php?action=add_animal" enctype="multipart/form-data">
+        <label for="name">Nom de l'animal :</label>
+        <input type="text" id="name" name="name" required>
 
-                    <label for="race-animal">Race de l'animal :</label>
-                    <input type="text" id="race-animal" name="race-animal" required>
+        <label for="espece">Espèce :</label>
+        <input type="text" id="espece" name="espece" required>
 
-                    <label for="habitat">Habitat :</label>
-                    <select id="habitat" name="habitat">
-                        <!-- Liste dynamique des habitats -->
-                        <option value="1">Savane</option>
-                        <option value="2">Jungle</option>
-                        <option value="3">Marais</option>
-                    </select>
+        <label for="habitat_id">Habitat :</label>
+        <select id="habitat_id" name="habitat_id" required>
+            <option value="Jungle">Jungle</option>
+            <option value="Marais">Marais</option>
+            <option value="Savane">Savane</option>
+        </select>
 
-                    <button type="submit">Ajouter Animal</button>
-                </form>
+        <label for="etat">État de l'animal :</label>
+        <textarea id="etat" name="etat" required></textarea>
 
-                    <tbody>
+        <label for="vet_comm">Commentaire du vétérinaire :</label>
+        <textarea id="vet_comm" name="vet_comm" required></textarea>
 
-                            <td>
-                                <a href="admin.php?action=edit_animal&id=1">Modifier</a> |
-                                <a href="admin.php?action=delete_animal&id=1" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">Supprimer</a>
-                            </td>
-                         </tr>
-                    </tbody>
-                </table>
+        <label for="food">Nourriture :</label>
+        <textarea id="food" name="food" required></textarea>
+
+        <label for="image_url">Image :</label>
+        <input type="file" id="image_url" name="image_url" required>
+
+        <button type="submit">Ajouter Animal</button>
+    </form>
+
+    <h3>Liste des Animaux</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Espèce</th>
+                <th>Habitat</th>
+                <th>État</th>
+                <th>Commentaire Vétérinaire</th>
+                <th>Nourriture</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($animals as $animal) : ?>
+            <tr>
+                <td><?= htmlspecialchars($animal['name']); ?></td>
+                <td><?= htmlspecialchars($animal['espece']); ?></td>
+                <td><?= htmlspecialchars($animal['habitat_id']); ?></td>
+                <td><?= htmlspecialchars($animal['etat']); ?></td>
+                <td><?= htmlspecialchars($animal['vet_comm']); ?></td>
+                <td><?= htmlspecialchars($animal['food']); ?></td>
+                <td><img src="<?= htmlspecialchars($animal['image_url']); ?>" alt="<?= htmlspecialchars($animal['name']); ?>" width="100"></td>
+                <td>
+                    <a href="admin.php?action=edit_animal&id=<?= $animal['id']; ?>">Modifier</a> |
+                    <a href="admin.php?action=delete_animal&id=<?= $animal['id']; ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet animal ?');">Supprimer</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
             </section>
    
      <!-- Section Comptes Rendus Vétérinaires -->
@@ -213,7 +320,7 @@ echo "Bienvenue sur la page admin !";
                             <td>Dr. Dupont</td>
                             <td>Examen de santé complet</td>
                         </tr>
-                        <!-- Plus de comptes rendus seront affichés ici avec PHP 
+        
                     </tbody> -->
                 </table>
             </section>
