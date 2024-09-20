@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 session_start();
 if (!isset($_SESSION['users_id']) || $_SESSION['role_id'] != 1) {
     header("Location: connexion.php");
@@ -80,6 +82,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_GET['action'] === 'edit_animal') 
     header("Location: admin.php#gestion-animaux");
     exit();
 }
+// Récupérer tous les habitats
+$stmt = $pdo->prepare("SELECT * FROM habitats");
+$stmt->execute();
+$habitats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -206,18 +212,44 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Gestion des habitats -->
             <section id="gestion-habitats" class="section">
                 <h2>Gestion des Habitats</h2>
-                <form method="POST" action="admin.php?action=add_habitat">
-                    <label for="nom-habitat">Nom de l'Habitat :</label>
-                    <input type="text" id="nom-habitat" name="nom-habitat" required>
+                <h2>Ajouter un nouvel habitat</h2>
+                <form action="admin_habitat.php" method="POST">
+    <label for="nom">Nom de l'habitat :</label>
+    <input type="text" id="nom" name="nom" required><br>
 
-                    <label for="description-habitat">Description :</label>
-                    <textarea id="description-habitat" name="description-habitat" required></textarea>
+    <label for="description">Description :</label>
+    <textarea id="description" name="description" required></textarea><br>
 
-                    <button type="submit">Ajouter Habitat</button>
-                    
-                </form>
+    <label for="image_url">URL de l'image :</label>
+    <input type="text" id="image_url" name="image_url" required><br>
 
-
+    <button type="submit" name="action" value="ajouter">Ajouter l'habitat</button>
+</form>
+    <!-- Liste des habitats existants avec options de modification et suppression -->
+    <h2>Habitats existants</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($habitats as $habitat): ?>
+            <tr>
+                <td><?php echo $habitat['nom']; ?></td>
+                <td><?php echo $habitat['description']; ?></td>
+                <td><img src="<?php echo $habitat['image_url']; ?>" alt="<?php echo $habitat['nom']; ?>" width="100"></td>
+                <td>
+                    <a href="edit_habitat.php?id=<?php echo $habitat['id']; ?>">Modifier</a> |
+                    <a href="delete_habitat.php?id=<?php echo $habitat['id']; ?>" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet habitat ?');">Supprimer</a>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
             </section>
 
             <!-- Gestion des animaux -->

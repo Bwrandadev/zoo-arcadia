@@ -3,7 +3,6 @@
     <div class="footer-container">
         <!-- Horaires d'ouverture -->
         <div class="footer-section">
-        <img src="iconesArcadia/iconHoraires.svg" alt="Icône horloge" class="icon-time">
             <p>
                 Horaires d'ouverture:<br>09h00 - 18h30<br>(du mardi au dimanche)
             </p>

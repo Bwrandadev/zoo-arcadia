@@ -130,7 +130,7 @@ $avis_en_attente = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label for="food_type">Type de nourriture :</label>
         <input type="text" id="food_type" name="food_type" required>
 
-        <label for="quantite">Quantité :</label>
+        <label for="quantite">Quantité:</label>
         <input type="number" step="0.01" id="quantite" name="quantite" required>
 
         <label for="feeding_time">Heure du repas :</label>

@@ -323,7 +323,7 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #7a5a29;
 }
-/* ---------------- habitats.php -------------------- */
+
 /* Section principale */
 .habitat-title {
   text-align: center;
@@ -334,7 +334,6 @@ button[type="submit"]:hover {
 .habitats-section {
   display: flex;
   justify-content: center;
-  padding: 40px;
   background-color: #171e1b;
 }
 
@@ -512,68 +511,61 @@ button:hover {
   font-family: "Inter", sans-serif;
 }
 
-/* ---------------- templateAnimaux.php -------------------- */
-body p a {
-  text-decoration: none;
-  color: #ffff;
-  font-style: italic;
-}
-.animal-card {
-  color: #fff;
-  border-radius: 10px;
-  text-align: center;
+/* Conteneur principal qui englobe l'image et les informations de l'animal */
+.animal-detail-container {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 10px;
-  height: 100%;
-  align-content: stretch;
-}
-
-.animal-card img {
-  border-radius: 40px;
-  width: 300px;
-  height: 300px;
-  object-fit: cover;
-  margin: 0 auto;
-  margin-bottom: 10px;
-}
-
-.animal-card h3 {
-  margin: 10px;
-  margin-bottom: 10px;
-}
-
-.animal-description {
-  display: none;
+  flex-wrap: wrap; /* Permet de s'adapter sur petits écrans */
+  justify-content: space-around;
+  align-items: flex-start;
+  margin: 40px auto;
+  max-width: 1200px; /* Largeur maximale du contenu */
   padding: 20px;
-  background-color: #ffff;
+  background-color: #f9f9f9;
   color: #171e1b;
-  border-radius: 40px;
-  text-align: left;
-  margin-top: 10px;
-  min-height: 150px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.animal-description.visible {
-  display: block;
-}
-/* Style pour les sections de la description */
-.animal-description ul {
-  list-style-type: disc;
-  padding-left: 20px;
-}
-
-.animal-description li {
-  margin-bottom: 10px;
+/* Section pour l'image de l'animal */
+.animal-image img {
+  max-width: 100%; /* L'image ne dépassera pas la taille de son conteneur */
+  max-height: 400px; /* Limiter la hauteur pour éviter une image trop grande */
+  object-fit: cover; /* Maintient l'aspect de l'image sans déformation */
+  border-radius: 10px;
 }
 
-.animal-description strong {
-  font-weight: bold;
-  color: #131313;
+/* Section pour les informations de l'animal */
+.animal-info {
+  flex: 1; /* Prend tout l'espace restant */
+  margin-left: 20px;
+  max-width: 500px; /* Limite la largeur des infos */
 }
-button.btn.btn-success {
-  margin: O auto;
+
+.animal-info h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.animal-info p {
+  font-size: 1.2em;
+  margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+  /* Sur mobile, l'image et les infos seront empilées */
+  .animal-detail-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .animal-image img {
+    max-height: 300px; /
+  }
+
+  .animal-info {
+    margin-left: 0;
+    text-align: center;
+  }
 }
 
 /* ---------------- admin.php -------------------- */
@@ -809,7 +801,7 @@ button {
   margin: 20px;
 }
 .section.active td {
-  background-color: #171e1b;
+  background-color: #4c6058;
   color: #fff;
 }
 .main-content h2 {
@@ -892,3 +884,76 @@ table td {
   color: #ffff;
   text-align: center;
 }
+
+
+
+
+/***********MEDIA******************/
+@media (max-width: 556px){
+  button {
+    margin: 0 auto;
+  margin-bottom: 10px;}
+
+  header nav ul {
+    display: flex;
+    flex-direction: column;
+    align-items: first baseline;
+  }
+
+  .footer-container {
+    flex-direction: column;
+  }
+
+  .habitats-container {
+    flex-direction: column;
+    align-items: center;
+}
+
+#services p {
+font-size:13px;
+}
+
+.services-container {
+  flex-direction: column;
+  align-items: center;
+}
+
+.avis-container { flex-direction: column;
+  align-items: center;}
+}
+ /*** mediaquerie habitat ***/
+ @media (max-width: 683px){
+.habitats-section h2{
+font-size: 18px;
+}
+.habitats-section p{
+  font-size: 13px;
+  }
+  .habitat img {
+    height: 200px;
+    width: 100px;
+  }
+ }
+
+ /*** mediaquerie services ***/
+ @media (max-width: 430px){
+  .services-descript {
+    flex-direction: column;
+  }
+  .services-descript-img {
+    margin: auto;
+    height: 300px;
+    width: 200px;
+  }
+
+  .services-title {
+    font-size: 20px;
+  }
+  .services-descript-text {
+    font-size: 12px;
+  }
+   }
+
+   /*** mediaquerie services ***/
+ @media (max-width: 430px){
+ }
