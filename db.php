@@ -1,22 +1,25 @@
 <?php
 function getDBConnection() {
-// Paramètres de connexion
-$host = 'localhost'; // Adresse du serveur (localhost si c'est en local)
-$dbname = 'zoo_arcadia24'; // Nom de la base de données
-$username = 'root'; // Nom d'utilisateur (par défaut, 'root' sur les serveurs locaux)
-$password = ''; // Mot de passe (souvent vide en local, sinon ce que tu as défini)
+    // Récupérer l'URL JawsDB à partir des variables d'environnement
+    $url = parse_url(getenv("JAWSDB_URL"));
 
-try {
-    // Créer une nouvelle connexion PDO
-    $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+    // Extraire les paramètres de connexion à partir de l'URL
+    $host = $url["host"]; // Hôte (serveur MySQL)
+    $dbname = substr($url["path"], 1); // Nom de la base de données
+    $username = $url["user"]; // Nom d'utilisateur
+    $password = $url["pass"]; // Mot de passe
 
-    // Configurer PDO pour afficher les erreurs
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;
-} catch (PDOException $e) {
-    // En cas d'erreur de connexion, afficher le message d'erreur
-    echo "Erreur de connexion à la base de données : " . $e->getMessage();
-    return null;
-}
+    try {
+        // Créer une nouvelle connexion PDO avec les paramètres extraits
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
+
+        // Configurer PDO pour afficher les erreurs
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $pdo;
+    } catch (PDOException $e) {
+        // En cas d'erreur de connexion, afficher le message d'erreur
+        echo "Erreur de connexion à la base de données : " . $e->getMessage();
+        return null;
+    }
 }
 ?>
