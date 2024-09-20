@@ -1,18 +1,19 @@
 <?php
 function getDBConnection() {
-    // Récupérer l'URL JawsDB à partir des variables d'environnement
-    $url = parse_url(getenv("JAWSDB_URL"));
+    // Récupérer l'URL PostgreSQL à partir des variables d'environnement
+    $url = parse_url(getenv("DATABASE_URL"));
 
-    // Extraire les paramètres de connexion à partir de l'URL
-    $host = $url["host"]; // Hôte (serveur MySQL)
-    $dbname = substr($url["path"], 1); // Nom de la base de données
-    $username = $url["user"]; // Nom d'utilisateur
-    $password = $url["pass"]; // Mot de passe
+    // Extraire les paramètres de connexion
+    $host = $url["host"];
+    $port = $url["port"];
+    $dbname = substr($url["path"], 1); // Retirer le "/" avant le nom de la base
+    $username = $url["user"];
+    $password = $url["pass"];
 
     try {
-        // Créer une nouvelle connexion PDO avec les paramètres extraits
-        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
-
+        // Créer une nouvelle connexion PDO pour PostgreSQL
+        $pdo = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $username, $password);
+        
         // Configurer PDO pour afficher les erreurs
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         return $pdo;
