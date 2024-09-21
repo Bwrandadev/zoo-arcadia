@@ -735,6 +735,7 @@ form textarea {
 
 button {
   padding: 10px;
+  margin: 50px;
   background-color: #7a5a29;
   color: white;
   border: none;
@@ -789,7 +790,7 @@ button {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  width: 100%;
+  width: 60%;
 }
 
 /* Contenu principal */

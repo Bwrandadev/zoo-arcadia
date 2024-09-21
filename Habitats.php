@@ -1,21 +1,21 @@
 <?php
-include('db.php');
-$pdo = getDBConnection();
+// Extraire les variables de DATABASE_URL
+$db_url = getenv("DATABASE_URL");
+$db = parse_url($db_url);
 
-// Récupérer tous les habitats
-$stmt = $pdo->prepare("SELECT * FROM habitats");
-$stmt->execute();
-$habitats = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Configuration de la connexion PostgreSQL
+$host = $db["host"];
+$port = $db["port"];
+$user = $db["user"];
+$password = $db["pass"];
+$dbname = ltrim($db["path"], "/");
 
-// Récupérer tous les animaux
-$stmt = $pdo->prepare("SELECT * FROM animals");
-$stmt->execute();
-$animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Connexion à PostgreSQL
+$conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 
-// Organiser les animaux par habitat
-$animals_by_habitat = [];
-foreach ($animals as $animal) {
-    $animals_by_habitat[$animal['habitat_id']][] = $animal;
+if (!$conn) {
+    echo "Erreur : Impossible de se connecter à la base de données PostgreSQL.\n";
+    exit;
 }
 ?>
     <!DOCTYPE html>
