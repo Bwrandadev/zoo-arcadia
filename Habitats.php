@@ -17,6 +17,30 @@ if (!$conn) {
     echo "Erreur : Impossible de se connecter à la base de données PostgreSQL.\n";
     exit;
 }
+$result = pg_query($conn, "SELECT * FROM habitats");
+
+if (!$result) {
+    echo "Erreur lors de l'exécution de la requête.";
+} else {
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<p>Nom de l'habitat : " . $row['name'] . "</p>";
+    }
+}
+$result = pg_query($conn, "SELECT * FROM habitats");
+
+if (!$result) {
+    echo "Erreur lors de l'exécution de la requête.";
+} else {
+    while ($row = pg_fetch_assoc($result)) {
+        echo "<p>Habitat: " . $row['name'] . "</p>";
+    }
+}
+if ($conn) {
+    echo "<p>Connexion réussie !</p>";
+} else {
+    echo "<p>Erreur de connexion à la base de données.</p>";
+}
+
 ?>
     <!DOCTYPE html>
     <html lang="fr">
