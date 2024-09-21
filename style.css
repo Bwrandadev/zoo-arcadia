@@ -256,6 +256,7 @@ html {
   color: #fff;
   border-radius: 40px;
 }
+
 .laisser-avis-btn a {
   color: white;
   text-decoration: none;
@@ -734,7 +735,7 @@ form textarea {
 
 button {
   padding: 10px;
-  background-color: #4caf50;
+  background-color: #7a5a29;
   color: white;
   border: none;
   cursor: pointer;
