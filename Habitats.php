@@ -17,30 +17,30 @@ if (!$conn) {
     echo "Erreur : Impossible de se connecter à la base de données PostgreSQL.\n";
     exit;
 }
+
+// Affichage des habitats
 $result = pg_query($conn, "SELECT * FROM habitats");
 
 if (!$result) {
     echo "Erreur lors de l'exécution de la requête.";
 } else {
     while ($row = pg_fetch_assoc($result)) {
-        echo "<p>Nom de l'habitat : " . $row['name'] . "</p>";
+        echo "<div class='habitat'>";
+        echo "<h2>" . $row['nom'] . "</h2>";
+        echo "<p>" . $row['description'] . "</p>";
+        echo "<img src='" . $row['image_url'] . "' alt='" . $row['nom'] . "'>";
+        echo "</div>";
     }
 }
-$result = pg_query($conn, "SELECT * FROM habitats");
 
-if (!$result) {
-    echo "Erreur lors de l'exécution de la requête.";
-} else {
-    while ($row = pg_fetch_assoc($result)) {
-        echo "<p>Habitat: " . $row['name'] . "</p>";
-    }
-}
 if ($conn) {
     echo "<p>Connexion réussie !</p>";
 } else {
     echo "<p>Erreur de connexion à la base de données.</p>";
 }
 
+// Fermeture de la connexion (optionnelle)
+pg_close($conn);
 ?>
     <!DOCTYPE html>
     <html lang="fr">

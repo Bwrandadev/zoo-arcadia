@@ -623,6 +623,7 @@ button:hover {
   cursor: pointer;
   margin: 20px;
   width: 60%;
+  text-decoration: none;
 }
 
 /* Contenu principal */
@@ -781,16 +782,6 @@ button {
 
 .sidebar ul li a:hover {
   background-color: #2f6b2f;
-}
-
-.logout-btn {
-  background-color: #997135;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 60%;
 }
 
 /* Contenu principal */
