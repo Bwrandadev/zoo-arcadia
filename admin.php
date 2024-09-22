@@ -151,7 +151,7 @@ $habitats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 $clicksCollection = $mongoDB->animals_clicks;
 
     // Récupérer tous les clics
-    $clicksData = $collection->find();
+    $clicksData = $clicksCollection->find();
 
     // Connexion à PostgreSQL pour récupérer les noms d'animaux associés aux clics
     $db_url = getenv("DATABASE_URL");
