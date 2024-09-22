@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
 if (!isset($_SESSION['users_id']) || $_SESSION['role_id'] != 1) {
     header("Location: connexion.php");
@@ -10,6 +8,12 @@ if (!isset($_SESSION['users_id']) || $_SESSION['role_id'] != 1) {
 include('db.php');
 $pdo = getDBConnection();
 
+// Connexion à MongoDB
+require 'vendor/autoload.php'; // Inclure l'autoload de Composer pour MongoDB
+$mongoClient = new MongoDB\Client("mongodb://localhost:27017");
+$mongoDB = $mongoClient->zoo_arcadia24; // Base de données MongoDB
+$clicksCollection = $mongoDB->animals_clicks; // Collection des clics
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] == 'add_user') {
     $email = $_POST['email'];
     $role = $_POST['role'];
@@ -18,7 +22,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
     $password = bin2hex(random_bytes(4)); // Crée un mot de passe aléatoire de 8 caractères
     $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-    
     $role_id = ($role == 'employe') ? 2 : 5; 
 
     try {
@@ -41,10 +44,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['ac
         echo "Erreur lors de la création de l'utilisateur : " . $e->getMessage();
     }
 }
-// Récupérer tous les animaux depuis la table
+
+// Récupérer tous les animaux depuis PostgreSQL
 $stmt = $pdo->prepare("SELECT * FROM animals");
 $stmt->execute();
 $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+// Ajouter le compteur de clics pour chaque animal depuis MongoDB
+foreach ($animals as &$animal) {
+    $clickData = $clicksCollection->findOne(['animal_id' => (int) $animal['id']]);
+    $animal['clicks'] = $clickData ? $clickData['clicks'] : 0; // Si pas de clics, on met 0
+}
 
 // Gestion de la suppression d'un animal
 if (isset($_GET['action']) && $_GET['action'] === 'delete_animal' && isset($_GET['id'])) {
@@ -82,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_GET['action'] === 'edit_animal') 
     header("Location: admin.php#gestion-animaux");
     exit();
 }
+
 // Récupérer tous les habitats
 $stmt = $pdo->prepare("SELECT * FROM habitats");
 $stmt->execute();
@@ -117,15 +128,69 @@ $habitats = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <main class="main-content">
             <!-- Section Dashboard -->
             <section id="dashboard" class="section active">
-                <h2>Dashboard</h2>
-                <p>Bienvenue dans le tableau de bord de gestion du Zoo. Voici les statistiques actuelles :</p>
-                <!-- Statistiques simplifiées -->
-                <ul>
-                    <li>Nombre d'utilisateurs : 20</li>
-                    <li>Nombre de services : 5</li>
-                    <li>Nombre d'habitats : 8</li>
-                    <li>Nombre d'animaux : 35</li>
-                </ul>
+            <h2>Dashboard</h2>
+    <p>Bienvenue dans le tableau de bord de gestion du Zoo. Voici les statistiques actuelles :</p>
+    <!-- Statistiques simplifiées -->
+    <ul>
+        <li>Nombre d'utilisateurs : 20</li>
+        <li>Nombre de services : 5</li>
+        <li>Nombre d'habitats : 8</li>
+        <li>Nombre d'animaux : 35</li>
+    </ul>
+
+    <!-- Ajout des statistiques des clics des animaux -->
+    <?php
+    require 'vendor/autoload.php'; // Charger l'autoloader de Composer
+
+    // Connexion à MongoDB
+    $client = new MongoDB\Client("mongodb://localhost:27017");
+    $db = $client->zoo_arcadia24; 
+    $collection = $db->animals_clicks; // Collection pour stocker les clics
+
+    // Récupérer tous les clics
+    $clicksData = $collection->find();
+
+    // Connexion à PostgreSQL pour récupérer les noms d'animaux associés aux clics
+    $db_url = getenv("DATABASE_URL");
+    $db = parse_url($db_url);
+    $host = $db["host"];
+    $port = $db["port"];
+    $user = $db["user"];
+    $password = $db["pass"];
+    $dbname = ltrim($db["path"], "/");
+    $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+
+    if (!$conn) {
+        echo "Erreur : Impossible de se connecter à PostgreSQL.\n";
+        exit;
+    }
+
+    // Afficher le tableau des clics
+    echo "<h2>Statistiques des Clics par Animal</h2>";
+    echo "<table>";
+    echo "<tr><th>Nom de l'animal</th><th>Nombre de clics</th></tr>";
+
+    foreach ($clicksData as $click) {
+        // Récupérer le nom de l'animal depuis PostgreSQL
+        $animalId = (int)$click['animal_id'];  // Assurez-vous que l'ID est un entier
+        $animalResult = pg_query($conn, "SELECT name FROM animals WHERE id = $animalId");
+        if ($animalResult && pg_num_rows($animalResult) > 0) {
+            $animal = pg_fetch_assoc($animalResult);
+
+            // Afficher l'animal et le nombre de clics
+            echo "<tr>";
+            echo "<td>" . htmlspecialchars($animal['name']) . "</td>";
+            echo "<td>" . (int)$click['clicks'] . "</td>";  // Clics ne nécessite pas htmlspecialchars
+            echo "</tr>";
+        }
+    }
+
+    echo "</table>";
+
+    // Fermeture de la connexion PostgreSQL
+    pg_close($conn);
+    ?>
+        
             </section>
 
             <!-- Gestion des utilisateurs -->

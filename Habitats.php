@@ -63,9 +63,9 @@ pg_close($conn);
             <div class="animal-icons">
                 <?php if (!empty($animals_by_habitat[$habitat['id']])): ?>
                     <?php foreach ($animals_by_habitat[$habitat['id']] as $animal): ?>
-                    <a href="animal_detail.php?id=<?php echo $animal['id']; ?>">
-                        <img src="<?php echo htmlspecialchars($animal['image_url']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
-                    </a>
+                        <a href="increment_click.php?id=<?php echo $animal['id']; ?>">
+    <img src="<?php echo htmlspecialchars($animal['image_url']); ?>" alt="<?php echo htmlspecialchars($animal['name']); ?>">
+</a>
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p>Aucun animal dans cet habitat pour le moment.</p>
