@@ -2,7 +2,7 @@
 require 'vendor/autoload.php'; // Charger l'autoloader de Composer
 
 // Connexion à MongoDB
-$client = new MongoDB\Client("mongodb://localhost:27017");
+$client = new MongoDB\Client("mongodb+srv://bwrandadev:Mayden123102@cluster0.rtdwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 $db = $client->zoo_arcadia24; // Nom de ta base MongoDB
 $collection = $db->animals_clicks; // Collection pour stocker les clics
 

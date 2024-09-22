@@ -1,4 +1,7 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Extraire les variables de DATABASE_URL
 $db_url = getenv("DATABASE_URL");
 $db = parse_url($db_url);
