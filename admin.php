@@ -132,14 +132,6 @@ $habitats = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- Section Dashboard -->
             <section id="dashboard" class="section active">
             <h2>Dashboard</h2>
-    <p>Bienvenue dans le tableau de bord de gestion du Zoo. Voici les statistiques actuelles :</p>
-    <!-- Statistiques simplifiées -->
-    <ul>
-        <li>Nombre d'utilisateurs : 20</li>
-        <li>Nombre de services : 5</li>
-        <li>Nombre d'habitats : 8</li>
-        <li>Nombre d'animaux : 35</li>
-    </ul>
 
     <!-- Ajout des statistiques des clics des animaux -->
     <?php
@@ -169,7 +161,7 @@ $clicksCollection = $mongoDB->animals_clicks;
     }
 
     // Afficher le tableau des clics
-    echo "<h2>Statistiques des Clics par Animal</h2>";
+    echo "<h3>Statistiques des Clics par Animal</h3>";
     echo "<table>";
     echo "<tr><th>Nom de l'animal</th><th>Nombre de clics</th></tr>";
 
