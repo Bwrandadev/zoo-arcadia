@@ -13,7 +13,7 @@ $pdo = getDBConnection();
 
 // Connexion à MongoDB
 require 'vendor/autoload.php'; // Inclure l'autoload de Composer pour MongoDB
-$mongoClient = new MongoDB\Client("mongodb://localhost:27017");
+$mongoClient = new MongoDB\Client("mongodb+srv://bwrandadev:Mayden123102@cluster0.rtdwd.mongodb.net/?retryWrites=true&w=majority");
 $mongoDB = $mongoClient->zoo_arcadia24; // Base de données MongoDB
 $clicksCollection = $mongoDB->animals_clicks; // Collection des clics
 
