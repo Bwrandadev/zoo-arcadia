@@ -16,6 +16,6 @@ $clicksCollection->updateOne(
 );
 
 // Rediriger vers la page précédente
-header("Location: Habitats.php");
+header("Location: animal_detail.php?id=$animalId");
 exit();
 ?>
