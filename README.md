@@ -39,8 +39,55 @@ Le projet **Zoo Arcadia** est conçu pour fonctionner sur les principaux systèm
 Utilisez Homebrew pour installer les dépendances comme PHP, MySQL, PostgreSQL, MongoDB et Composer.
 Installer les dépendances avec Homebrew :
 
-````bash
+```bash
 brew install php mysql postgresql composer mongodb
+```
+
+## Mise en place de l’environnement de travail
+
+### Choix de l’environnement local
+
+Pour développer l’application Zoo Arcadia, j’ai opté pour un environnement local basé sur macOS. Voici les étapes et outils utilisés pour configurer cet environnement :
+
+1. PHP : J’ai choisi PHP comme langage de programmation principal pour la logique serveur, car il est bien adapté au développement d’applications web avec des bases de données. PHP est également largement supporté sur la plupart des plateformes d’hébergement.
+   • Installation via Homebrew : PHP a été installé en utilisant Homebrew pour faciliter la gestion des versions.
+
+```bash
+brew install php
+```
+
+2. MySQL : J’ai utilisé MySQL comme base de données pendant la phase de développement en local. MySQL est facile à configurer et largement utilisé, ce qui en fait un bon choix pour gérer des bases de données relationnelles.
+   • Installation via Homebrew : MySQL a été installé et géré localement pour tester et valider les modèles de données.
+
+```bash
+brew install mysql
+```
+
+3. phpMyAdmin : Pour faciliter la gestion de la base de données, j’ai utilisé phpMyAdmin comme interface graphique pour interagir avec MySQL. Il permet de visualiser, importer et exporter les données facilement.
+4. Composer : Le gestionnaire de dépendances PHP a été utilisé pour installer les bibliothèques nécessaires. Cela garantit que toutes les dépendances du projet sont à jour et maintenues.
+   • Installation via Homebrew :
+
+```bash
+brew install composer
+```
+
+5. MongoDB : MongoDB a été utilisé pour stocker des données non structurées comme les clics sur les animaux. Il est particulièrement adapté aux scénarios où une flexibilité dans la structure des données est requise.
+   • Installation via Homebrew :
+
+```bash
+brew install mongodb-community
+```
+
+6. Visual Studio Code : J’ai choisi Visual Studio Code comme éditeur de code pour ce projet. Il est léger, extensible et permet de configurer un environnement de développement complet avec des extensions pour PHP, MySQL, MongoDB et Git.
+7. Git et GitHub : Le projet est versionné avec Git et hébergé sur GitHub, permettant un contrôle de version rigoureux et la collaboration avec d’autres développeurs si nécessaire.
+
+### Environnement de production (Heroku)
+
+Pour le déploiement en production, j’ai opté pour Heroku pour sa simplicité de déploiement et sa compatibilité avec des technologies modernes comme PostgreSQL et MongoDB.
+
+1. PostgreSQL : Utilisé pour une meilleure gestion des données en production.
+2. MongoDB : Utilisé pour gérer l’incrémentation des clics sur les animaux.
+3. Scalabilité : Heroku permet d’adapter les ressources en fonction des besoins.
 
 ## Installation et Configuration de la base de données
 
@@ -49,8 +96,10 @@ brew install php mysql postgresql composer mongodb
 **Étape 1** : Installation de MySQL et phpMyAdmin
 
 - **macOS**: Utilisez Homebrew ou apt pour installer MySQL.
- ```bash
-  brew install mysql # macOS
+
+```bash
+ brew install mysql # macOS
+```
 
 **Étape 2**: Configuration MySQL
 
@@ -79,6 +128,8 @@ $password = ''; // laissez vide si pas de mot de passe pour root
          echo 'Erreur de connexion : ' . $e->getMessage();
     }
 
+```
+
 ### Environnement de production (PostgreSQL sur Heroku)
 
 Après avoir terminé le développement avec MySQL, la base de données a été migrée vers PostgreSQL pour la compatibilité avec Heroku.
@@ -88,19 +139,22 @@ Après avoir terminé le développement avec MySQL, la base de données a été 
 1. Allez sur votre tableau de bord Heroku.
 2. Sous l’onglet Resources, ajoutez l’add-on Heroku Postgres.
 3. Récupérez l’URL de connexion PostgreSQL en utilisant :
+
 ```bash
 heroku config:get DATABASE_URL
+```
 
 **Étape 2** : Migration de MySQL vers PostgreSQL
 Pour migrer la base de données MySQL vers PostgreSQL, utilisez pgLoader ou exportez manuellement les données avec un fichier SQL compatible. Voici un exemple de commande pgloader pour automatiser la migration :
 
-bash
+```bash
 pgloader mysql://root@localhost/zoo_arcadia24 postgresql://u8efhg884d8386:pe2558945dd4e3c38dc769c6bdaebab8bce3f207becf430a77b6134ac639c658e@clhtb6lu92mj2.cluster-czz5s0kz4scl.eu-west-1.rds.amazonaws.com:5432/db1k84ugma13ke
+```
 
 **Étape 3** : Configuration dans db.php pour PostgreSQL
 Pour se connecter à PostgreSQL sur Heroku, modifiez le fichier db.php :
 
-php
+```php
 <?php
 // Connexion à PostgreSQL (en production sur Heroku)
 $db_url = getenv('DATABASE_URL');
@@ -118,10 +172,11 @@ $db_url = getenv('DATABASE_URL');
     } catch (PDOException $e) {
         echo 'Erreur de connexion : ' . $e->getMessage();
     }
+```
 
 **Étape 4** : Déployer sur Heroku
 Une fois PostgreSQL configuré, déployez le projet sur Heroku :
 
-bash
+```bash
 git push heroku main
-````
+```
