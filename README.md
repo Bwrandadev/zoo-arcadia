@@ -116,7 +116,7 @@ Dans le fichier db.php, configurez la connexion à MySQL :
 <?php
 // Connexion à MySQL (en développement)
 $host = 'localhost';
-$dbname = 'zoo_arcadia24';
+$dbname = 'zoo_arcadia24';heroku config:get DATABASE_URL
 $user = 'root'; // ou votre utilisateur MySQL
 $password = ''; // laissez vide si pas de mot de passe pour root
 
